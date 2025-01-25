@@ -1,5 +1,5 @@
 # EDMB
-Code of paper "EDMB: Edge Detector with Mamba"
+Code of paper [EDMB: Edge Detector with Mamba](https://arxiv.org/pdf/2501.04846)
 
 ## Prepare data
 As mentioned in paper, following LPCB, RCF and DexiNed in BSDS500, NYUDv2 and BIPED, separately.
