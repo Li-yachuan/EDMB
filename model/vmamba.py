@@ -1483,6 +1483,7 @@ class Backbone_VSSM(VSSM):
 
     def load_pretrained(self, ckpt=None, key="model"):
         if ckpt is None:
+            print("Donot have ckpt!!!")
             return
 
         try:

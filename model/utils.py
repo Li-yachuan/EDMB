@@ -96,9 +96,9 @@ def get_encoder(nm, Dulbrn=16,global_ckpt=None):
         assert global_ckpt is not None
         from model.MixEncoder_PNG import MIXENC
         encoder = MIXENC(Dulbrn=Dulbrn,ckpt=global_ckpt)
-    elif "MIXENC_SHARED" == nm.upper():#partly no grad
+    elif "MCENC" == nm.upper():
         assert global_ckpt is not None
-        from model.MixEncoder_shared import MIXENC
+        from model.MCEncoder import MIXENC
         encoder = MIXENC(Dulbrn=Dulbrn,ckpt=global_ckpt)
     elif "DUL-S18" == nm.upper():
         from model.caformer import caformer_s18_384_in21ft1k
