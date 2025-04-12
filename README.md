@@ -19,11 +19,11 @@ datasets such as NYUDv2 and BIPED. The source code is available at https://githu
 
 ![Result on bsds.](fig/result_bsds.png)
 
-*Fig. 2 Quantitative results on the BSDS500 dataset. All edges are generated without multi-scale testing or additional PASCAL-VOC data. * means generating multi-granularity edges. The best two results are denoted as red and blue respectively, and the same for other tables.*
+*Table 1 Quantitative results on the BSDS500 dataset. All edges are generated without multi-scale testing or additional PASCAL-VOC data. * means generating multi-granularity edges. The best two results are denoted as red and blue respectively, and the same for other tables.*
 
 ![Vis on bsds.](fig/vis_bsds.png)
 
-*Table 1 Qualitative comparisons on challenging samples in the BSDS500 test set. MuGE produces diverse results with edge granularity of 0, 0.5, and 1, respectively. EDMB and UAED samples from the learned distribution with µ + γσ2*
+*Fig. 2 Qualitative comparisons on challenging samples in the BSDS500 test set. MuGE produces diverse results with edge granularity of 0, 0.5, and 1, respectively. EDMB and UAED samples from the learned distribution with µ + γσ2*
 
 For more details, see [the paper](https://arxiv.org/pdf/2501.04846)
 
@@ -45,8 +45,13 @@ pip install -r requirements.txt
 
 #### Install Dependencies for vmamba
 ```
+wget https://github.com/Dao-AILab/causal-conv1d/archive/refs/tags/v1.1.1.zip
+unzip v1.1.1.zip
 cd causal-conv1d-1.1.1 && pip install .
+wget https://github.com/state-spaces/mamba/archive/refs/tags/v1.1.1.zip
+unzip v1.1.1.zip
 cd mamba-1.1.1 && pip install .
+wget https://github.com/MzeroMiko/VMamba/tree/main/kernels/selective_scan
 cd kernels/selective_scan && pip install .
 ```
 ###Step 3: download data and pretrained-parameter
