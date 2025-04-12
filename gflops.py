@@ -1,25 +1,22 @@
 from model.basemodel import Basemodel
-import yaml
+import argparse
 from fvcore.nn import FlopCountAnalysis, parameter_count_table
 import torch
-import sys
-from utils import get_model_parm_nums
 
-cfg = r"config/semi-supervise/S18_MG.yaml"
-with open(cfg, 'r', encoding='utf-8') as file:
-    cfg = yaml.safe_load(file)
-# import pdb; pdb.set_trace()
-net = Basemodel(encoder_name="Dul-S18",
-                # decoder_name="ATTMIX",  #UNETMIX  UNETPPMIX
-                # decoder_name="UNETMIX",  #UNETMIX  UNETPPMIX
-                decoder_name="UNETPPMIX",  #UNETMIX  UNETPPMIX
-                head_name="Mixhead",
-                cfg=cfg).cuda()
+parser = argparse.ArgumentParser(description='PyTorch Training')
+parser.add_argument("--encoder", default="MIXENC_PNG",
+                    help="caformer-m36,Dul-M36,DUL-Mamba")
+parser.add_argument("--decoder", default="MIXUNET",
+                    help="unet,unetp,default")
+parser.add_argument("--global_ckpt",
+                    default="/workspace/EDMamba/output-VM/0602-bsds-s-mixlb/"
+                            "epoch-0-training-record/epoch-0-checkpoint.pth")
+args = parser.parse_args()
 
-print("MODEL SIZE: {}".format(get_model_parm_nums(net)))
 
-input = torch.randn(1, 3, 480, 320)  # batchsize=1
-
+net = Basemodel(args).cuda()
+input = torch.randn(1, 3, 481, 321)  # batchsize=1, 输入向量长度为10
+# input = torch.randn(1, 3, 560, 425)  # batchsize=1, 输入向量长度为10
 flops = FlopCountAnalysis(net, input.cuda())
 print("FLOPs: ", flops.total() / 1000 / 1000 / 1000)
 
@@ -27,6 +24,6 @@ print("FLOPs: ", flops.total() / 1000 / 1000 / 1000)
 
 from thop import profile
 
-input = torch.randn(1, 3, 480, 320)
+input = torch.randn(1, 3, 481, 321)
 flops, params = profile(net, inputs=(input.cuda(), ))
 print("FLOPs=", str(flops/1e9) + '{}'.format("G"))

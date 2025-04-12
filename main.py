@@ -60,8 +60,8 @@ numpy.random.seed(random_seed)
 
 import sys
 from os.path import join, isdir
-from data_process import BSDS_Loader, NYUD_Loader, BIPED_Loader, Multicue_Loader, \
-    PASCAL_Loader, BSDS_VOCLoader
+from data_process import BSDS_Loader, NYUD_Loader, BIPED_Loader
+    # Multicue_Loader, PASCAL_Loader, BSDS_VOCLoader
 from model.basemodel import Basemodel
 from torch.utils.data import DataLoader
 from utils import Logger, get_model_parm_nums
@@ -71,17 +71,24 @@ from test import test, multiscale_test
 
 def main():
     if args.dataset == "BSDS-rand":
-        datadir = "/workspace/00Dataset/BSDS-yc"
-        train_dataset = BSDS_Loader(root=datadir, split="train")
+        datadir = "/data/users/liyachuan/dataset/BSDS-yc"
+        train_dataset = BSDS_Loader(root=datadir, split="train",label_type="rand")
         test_dataset = BSDS_Loader(root=datadir, split="test")
         if args.loss_lmbda is None:
             args.loss_lmbda = 1.1
     elif args.dataset == "BSDS-mix":
         datadir = "/workspace/00Dataset/BSDS-yc"
-        train_dataset = BSDS_Loader(root=datadir, split="train", mix=True)
+        train_dataset = BSDS_Loader(root=datadir, split="train", label_type="mix")
         test_dataset = BSDS_Loader(root=datadir, split="test")
         if args.loss_lmbda is None:
             args.loss_lmbda = 1.1
+    elif args.dataset == "BSDS-pseudo":
+        datadir = "/workspace/00Dataset/BSDS-yc"
+        train_dataset = BSDS_Loader(root=datadir, split="train", label_type="pseudo")
+        test_dataset = BSDS_Loader(root=datadir, split="test")
+        if args.loss_lmbda is None:
+            args.loss_lmbda = 1.1
+
     elif args.dataset == "BSDS-PASCAL":
         datadir = "/workspace/00Dataset"
         train_dataset = BSDS_VOCLoader(root=datadir, split="train", threshold=0.3)
@@ -154,10 +161,23 @@ def main():
         test(model, test_loader,
              save_dir=join(args.savedir,os.path.basename(args.resume).split(".")[0] + "-ss"),
              mg=args.multi_gran)
-       
+        # if "BSDS" in args.dataset.upper():
+        #     test(model, test_loader, save_dir=join(args.savedir,
+        #                                            os.path.basename(args.resume).split(".")[0] + "-ss"))
+        #     multiscale_test(model,
+        #                     test_loader,
+        #                     save_dir=join(args.savedir, os.path.basename(args.resume).split(".")[0] + "-ms7"))
+        #     multiscale_test(model,
+        #                     test_loader,
+        #                     save_dir=join(args.savedir, os.path.basename(args.resume).split(".")[0] + "-ms3"),
+        #                     scale_num=3)
+        # else:
+        #     test(model, test_loader, save_dir=join(args.savedir,
+        #                                            os.path.basename(args.resume).split(".")[0] + "-ss"))
+        #
     else:
         train_loader = DataLoader(
-            train_dataset, batch_size=args.batch_size, num_workers=4,
+            train_dataset, batch_size=args.batch_size, num_workers=0,
             drop_last=True, shuffle=True)
 
         parameters = {'pretrained.weight': [], 'pretrained.bias': [],
@@ -184,19 +204,35 @@ def main():
             {'params': parameters['nopretrained.bias'], 'lr': args.LR * 2, 'weight_decay': 0.},
         ], lr=args.LR, weight_decay=args.weight_decay)
 
-      
+        # optimizer = torch.optim.Adam(model.parameters(), lr=args.LR, weight_decay=args.weight_decay)
+        # optimizer = torch.optim.Adam(filter(lambda p: p.requires_grad, model.parameters()), lr=args.LR,
+        #                              weight_decay=args.weight_decay)
+        # test(model, test_loader, save_dir=join(args.savedir, 'epoch-init-testing-record'))
         for epoch in range(args.start_epoch, args.maxepoch):
             train(train_loader, model, optimizer, epoch, args)
             test(model, test_loader, save_dir=join(args.savedir, 'epoch-%d-ss-test' % epoch),
                  mg=args.multi_gran)
+            # if "BSDS" in args.dataset.upper():
+            #     multiscale_test(model, test_loader,
+            #                     save_dir=join(args.savedir, 'epoch-{}-ms{}-test'.format(epoch, 3)),
+            #                     scale_num=3, mg=(vgg_model is None))
+            #     multiscale_test(model, test_loader,
+            #                     save_dir=join(args.savedir, 'epoch-{}-ms{}-test'.format(epoch, 7)),
+            #                     scale_num=7, mg=(vgg_model is None))
+
+            # train(train_loader, model, optimizer, epoch, args, vgg_model)
             log.flush()
 
 
 if __name__ == '__main__':
     import datetime
+
+    # 获取当前日期和时间
     current_time = datetime.datetime.now()
+    # 将日期和时间转换为字符串格式
     time_string = current_time.strftime("%Y-%m-%d %H:%M:%S")
-    args.savedir = join("output-VM", args.savedir)
+
+    args.savedir = join("output-zeroshot", args.savedir)
     os.makedirs(args.savedir, exist_ok=True)
     log = Logger(join(args.savedir, '%s-log.txt' % (time_string)))
     sys.stdout = log

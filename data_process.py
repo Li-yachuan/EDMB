@@ -8,6 +8,7 @@ import random
 import imageio
 from pathlib import Path
 from torch.nn.functional import interpolate
+import cv2
 from skimage import morphology
 
 
@@ -231,11 +232,11 @@ class BSDS_Loader(data.Dataset):
     """
 
     def __init__(self, root='data/HED-BSDS', split='train', threshold=0.3,
-                 colorJitter=False, mix=False):
+                 colorJitter=False, label_type="rand"):
         self.root = root
         self.split = split
         self.threshold = threshold
-        self.mix = mix
+        self.label_type = label_type
         print('Threshold for ground truth: %f on BSDS' % self.threshold)
         normalize = transforms.Normalize(mean=[0.485, 0.456, 0.406],
                                          std=[0.229, 0.224, 0.225])
@@ -266,7 +267,18 @@ class BSDS_Loader(data.Dataset):
             img_lb_file = self.filelist[index].strip("\n").split(" ")
             img_file = img_lb_file[0]
 
-            if self.mix:
+            if self.label_type == "pseudo":
+                image = cv2.imread(join(self.root, img_file))
+                # print(img_file,type(image))
+                # 将图像转换为灰度图
+                gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+                # 使用 Canny 边缘检测
+                low_threshold = 100
+                high_threshold = 200
+                lb = torch.from_numpy(cv2.Canny(gray, low_threshold, high_threshold)).unsqueeze(0) / 255.0
+
+
+            elif self.label_type == "mix":
                 label_list = [transforms.ToTensor()(Image.open(join(self.root, lb_file)))
                               for lb_file in img_lb_file[1:]]
 
@@ -274,7 +286,7 @@ class BSDS_Loader(data.Dataset):
                 lb[lb >= self.threshold] = 1
                 lb[(lb > 0) & (lb < self.threshold)] = 2
 
-            else:
+            else:  # random
                 lb_index = random.randint(2, len(img_lb_file)) - 1
                 lb_file = img_lb_file[lb_index]
                 lb = transforms.ToTensor()(Image.open(join(self.root, lb_file)))
@@ -289,7 +301,7 @@ class BSDS_Loader(data.Dataset):
         img = self.transform(img)
 
         if self.split == "train":
-            return img, lb
+            return img[:, :320, :480], lb[:, :320, :480]
         else:
             img_name = Path(img_file).stem
             return img, img_name
