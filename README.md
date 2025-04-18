@@ -65,6 +65,9 @@ download them and point to the path in main.py(start from line 73)
 #### download ckpt
 [vmabma-s](https://github.com/MzeroMiko/VMamba/releases/download/%23v2cls/vssm_small_0229_ckpt_epoch_222.pth)
 and put it to *./model/*
+```
+cd model && wget https://github.com/MzeroMiko/VMamba/releases/download/%23v2cls/vssm_small_0229_ckpt_epoch_222.pth
+```
 
 ###Step 4: training model
 
