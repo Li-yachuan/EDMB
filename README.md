@@ -34,6 +34,12 @@ git clone https://github.com/Li-yachuan/EDMB.git
 cd EDMB
 ```
 ### Step 2: Environment Setup:
+
+#### Optional 1. (recommend)**Using docker:**https://hub.docker.com/r/kom4cr0/cuda11.7-pytorch1.13-mamba1.1.1
+
+#### Optional 2. Manually install Mamba
+
+1. setup virture env
 ```angular2
 conda create -n edmb
 conda activate edmb
@@ -42,10 +48,7 @@ conda activate edmb
 ```angular2
 pip install -r requirements.txt
 ```
-
-#### Install Dependencies for vmamba
-Optional 1. (recommend)**Using docker:**https://hub.docker.com/r/kom4cr0/cuda11.7-pytorch1.13-mamba1.1.1
-Optional 2. Manually install Mamba
+2. Install Dependencies for vmamba
 ```
 wget https://github.com/Dao-AILab/causal-conv1d/archive/refs/tags/v1.1.1.zip
 unzip v1.1.1.zip
