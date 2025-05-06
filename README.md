@@ -27,13 +27,13 @@ datasets such as NYUDv2 and BIPED. The source code is available at https://githu
 
 For more details, see [the paper](https://arxiv.org/pdf/2501.04846)
 
-##Getting Started
-###Step 1: Clone the EDMB repository:
+## Getting Started
+### Step 1: Clone the EDMB repository:
 ```angular2
 git clone https://github.com/Li-yachuan/EDMB.git
 cd EDMB
 ```
-###Step 2: Environment Setup:
+### Step 2: Environment Setup:
 ```angular2
 conda create -n edmb
 conda activate edmb
@@ -56,8 +56,8 @@ cd mamba-1.1.1 && pip install .
 wget https://github.com/MzeroMiko/VMamba/tree/main/kernels/selective_scan
 cd kernels/selective_scan && pip install .
 ```
-###Step 3: download data and pretrained-parameter
-####dataset
+### Step 3: download data and pretrained-parameter
+#### dataset
 - BSDS500: Following [UAED&MuGE](https://github.com/ZhouCX117/UAED_MuGE). For better visualization, we convert the images in mat format to jpg in advance. If you use images in mat format, you need to make a simple change in the data loading module. 
 
 - NYUDv2:  Following [RCF](https://github.com/yun-liu/RCF).  
