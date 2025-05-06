@@ -1,5 +1,13 @@
 # EDMB: Edge Detector with Mamba
 
+
+## Update 
+1.We released "A Doubly Decoupled Network for Edge Detection"(DDN)
+Main features: 
+Transformer is used as the main feature extraction module and one-stage training is adopted, which is more convenient than EDMB. 
+It uses the same multi-granularity edge generation strategy as EDMB. The accuracy is better than EDMB, and the ODS on BSDS500 reaches 0.867.
+## Abstract
+
 Transformer-based models have made significant progress in edge detection, but their high computational
 cost is prohibitive. Recently, vision Mamba have shown excellent ability in efficiently capturing long-range depen-
 dencies. Drawing inspiration from this, we propose a novel edge detector with Mamba, termed EDMB, to efficiently
