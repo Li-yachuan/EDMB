@@ -23,7 +23,7 @@ datasets such as NYUDv2 and BIPED. The source code is available at https://githu
 
 ![Vis on bsds.](fig/vis_bsds.png)
 
-*Fig. 2 Qualitative comparisons on challenging samples in the BSDS500 test set. MuGE produces diverse results with edge granularity of 0, 0.5, and 1, respectively. EDMB and UAED samples from the learned distribution with µ + γσ2*
+*Fig. 2 Qualitative comparisons on challenging samples in the BSDS500 test set. MuGE produces diverse results with edge granularity of 0, 0.5, and 1, respectively. EDMB and UAED samples from the learned distribution with µ + γσ^2*
 
 For more details, see [the paper](https://arxiv.org/pdf/2501.04846)
 
