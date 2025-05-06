@@ -44,6 +44,8 @@ pip install -r requirements.txt
 ```
 
 #### Install Dependencies for vmamba
+Optional 1. (recommend)**Using docker:**https://hub.docker.com/r/kom4cr0/cuda11.7-pytorch1.13-mamba1.1.1
+Optional 2. Manually install Mamba
 ```
 wget https://github.com/Dao-AILab/causal-conv1d/archive/refs/tags/v1.1.1.zip
 unzip v1.1.1.zip
