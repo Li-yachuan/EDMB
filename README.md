@@ -2,7 +2,8 @@
 
 
 ## Update 
-1.We released "A Doubly Decoupled Network for Edge Detection"(DDN)
+We released ["A Doubly Decoupled Network for Edge Detection"(DDN)](https://github.com/Li-yachuan/DDN)
+
 Main features: 
 Transformer is used as the main feature extraction module and one-stage training is adopted, which is more convenient than EDMB. 
 It uses the same multi-granularity edge generation strategy as EDMB. The accuracy is better than EDMB, and the ODS on BSDS500 reaches 0.867.
