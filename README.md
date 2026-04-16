@@ -7,6 +7,11 @@ We released ["A Doubly Decoupled Network for Edge Detection"(DDN)](https://githu
 Main features: 
 Transformer is used as the main feature extraction module and one-stage training is adopted, which is more convenient than EDMB. 
 It uses the same multi-granularity edge generation strategy as EDMB. The accuracy is better than EDMB, and the ODS on BSDS500 reaches 0.867.
+
+## Update 260416
+Uploaded images for multi-granularity testing on the BSDS500 (BSDS_MG.zip), NYUD (NYUD_MG1.zip, NYUD_MG2.zip), and BIPED (BIPED_MG.zip) datasets. Please note that the NYUD data was split into two parts due to file size limits; please merge them before use.
+
+
 ## Abstract
 
 Transformer-based models have made significant progress in edge detection, but their high computational
