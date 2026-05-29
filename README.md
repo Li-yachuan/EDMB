@@ -88,15 +88,16 @@ and put it to *./model/*
 cd model && wget https://github.com/MzeroMiko/VMamba/releases/download/%23v2cls/vssm_small_0229_ckpt_epoch_222.pth
 ```
 
-###Step 4: training model
+### Step 4: training model
 
 #### stage I
 ```angular2
 python main.py --batch_size 4 --stepsize 10-16 --maxepoch 20 --gpu 1 --encoder DUL-Mamba-s --savedir [save dir] --dataset BSDS-rand
 ```
 #### stage II
+```angular2
 python main.py --batch_size 3 --stepsize 10-14 --maxepoch 16 --gpu 2 --encoder MIXENC_PNG --decoder MIXUNET --savedir [save dir] --dataset BSDS-rand --global_ckpt [bset result of Stage I]
-
+```
 #### Generating multi-granu edge
 ```angular2
 python main.py --batch_size 3 --stepsize 10-14 --maxepoch 16 --gpu 2 --encoder MIXENC_PNG --decoder MIXUNET --savedir [save dir] --dataset BSDS-rand --global_ckpt [bset result of Stage I] --mode test --resume [bset result of Stage II] -mg
