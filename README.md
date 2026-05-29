@@ -102,6 +102,9 @@ python main.py --batch_size 3 --stepsize 10-14 --maxepoch 16 --gpu 2 --encoder M
 ```angular2
 python main.py --batch_size 3 --stepsize 10-14 --maxepoch 16 --gpu 2 --encoder MIXENC_PNG --decoder MIXUNET --savedir [save dir] --dataset BSDS-rand --global_ckpt [bset result of Stage I] --mode test --resume [bset result of Stage II] -mg
 ```
+
+### Step 5: test model
+
 #### Single-granu test
  We used Piotr's Structured Forest matlab toolbox available [here](https://github.com/pdollar/edges).
  
